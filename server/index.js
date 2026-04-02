@@ -11,6 +11,11 @@ let todos = [
   { id: 2, text: "買い物する" }
 ];
 
+//rootにアクセスした際の表示
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
 // 一覧取得
 app.get("/todos", (req, res) => {
   res.json(todos);
