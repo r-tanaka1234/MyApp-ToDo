@@ -28,6 +28,22 @@ app.post('/api/todos', (req, res) => {
   res.json(newTodo);
 });
 
+// 完了状態の更新
+app.put('/api/todos/:id', (req, res) => {
+  const id = Number(req.params.id);
+  const { completed } = req.body;
+
+  const todo = todos.find(t => t.id === id);
+
+  if (!todo) {
+    return res.status(404).json({ message: "Not found" });
+  }
+
+  todo.completed = Boolean(completed);
+
+  res.json(todo);
+});
+
 // トップ
 app.get('/', (req, res) => {
   res.send('Server is running!');

@@ -34,6 +34,28 @@ function App() {
       });
   };
 
+  const toggleTodo = async (id, currentStatus) => {
+    const res = await fetch(`http://localhost:3001/api/todos/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        completed: !currentStatus
+      })
+    });
+  
+    const updatedTodo = await res.json();
+    console.log("updateTodo:",updatedTodo)
+  
+    // UI更新
+    setTodos(prev =>
+      prev.map(todo =>
+        todo.id === id ? updatedTodo : todo
+      )
+    );
+  };
+
   return (
     <div>
       <h1>ToDo一覧</h1>
@@ -47,6 +69,11 @@ function App() {
       <ul>
         {todos.map(todo => (
           <li key={todo.id}>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => toggleTodo(todo.id,todo.completed)}
+              />
             {todo.text}（{todo.completed ? "完了" : "未完了"}）
           </li>
         ))}
