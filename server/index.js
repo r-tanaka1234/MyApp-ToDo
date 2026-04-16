@@ -1,26 +1,36 @@
-const express = require("express");
-const cors = require("cors");
-
+const express = require('express');
 const app = express();
-app.use(cors());
+const port = 3001;
+
 app.use(express.json());
 
-// 仮データ（DBの代わり）
+// 仮データ
 let todos = [
-  { id: 1, text: "勉強する" },
-  { id: 2, text: "買い物する" }
+  { id: 1, text: "買い物", completed: false },
+  { id: 2, text: "勉強", completed: true }
 ];
 
-//rootにアクセスした際の表示
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
-
 // 一覧取得
-app.get("/todos", (req, res) => {
+app.get('/api/todos', (req, res) => {
   res.json(todos);
 });
 
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+// 追加
+app.post('/api/todos', (req, res) => {
+  const newTodo = {
+    id: Date.now(),
+    text: req.body.text,
+    completed: false
+  };
+  todos.push(newTodo);
+  res.json(newTodo);
+});
+
+// トップ
+app.get('/', (req, res) => {
+  res.send('Server is running!');
+});
+
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
 });
