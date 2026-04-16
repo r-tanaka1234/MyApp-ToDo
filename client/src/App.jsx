@@ -19,6 +19,10 @@ function App() {
 
   // 
   const addTodo = () => {
+
+    // テキストが空の場合、追加しない
+    if (!newText) return;
+
     fetch('http://localhost:3001/api/todos', {
       method: 'POST',
       headers: {
